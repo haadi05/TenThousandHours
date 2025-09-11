@@ -1,9 +1,12 @@
+import { useContext } from "react";
+import SkillContext from "../context/Context";
+
 function SkillCard({ color }) {
-  const title = "Full Stack Dev";
+  const { skill } = useContext(SkillContext);
+  const title = skill.skillName;
   const days = 1;
-  const hours = 260;
-  const totalHours = 10000;
-  const remaining = 740;
+  const hour = skill.hours;
+  const remaining = skill.hours;
   const dailyAvg = 7;
 
   return (
@@ -16,9 +19,10 @@ function SkillCard({ color }) {
         ></div>
       </div>
       <div className="flex justify-between mb-4">
-        <p className="text-sm text-black mb-2 bg-white rounded-sm px-1">
-          {hours} / {totalHours.toLocaleString()}h
-        </p>
+        <div className="flex justify-center items-center gap-1 text-gray-400 text-sm">
+          <img className="w-4 text-gray-400 " src="./src/assets/calender.svg" />
+          {skill.Date}
+        </div>
       </div>
 
       <div className="flex justify-center items-center mb-6">
@@ -29,14 +33,14 @@ function SkillCard({ color }) {
           ></div>
         </div>
 
-        <p class="text-sm m-0 pl-2 text-white">26%</p>
+        <p className="text-sm m-0 pl-2 text-white">26%</p>
       </div>
       <div className="flex justify-between text-sm mb-2">
         <div>
-          <span className="text-gray-400">Remaining:</span> {remaining}h
+          <span className="text-gray-400">Goal: </span> {hour}h
         </div>
         <div>
-          <span className="text-gray-400">Daily Avg:</span> {dailyAvg}h
+          <span className="text-gray-400">Remaining:</span> {remaining}h
         </div>
       </div>
 
