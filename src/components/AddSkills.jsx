@@ -25,6 +25,7 @@ export default function AddSkills() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setSkill({ skillName, hours, color, Date: date.toLocaleDateString() });
+    ClosePopup();
   };
 
   const navigate = useNavigate();
