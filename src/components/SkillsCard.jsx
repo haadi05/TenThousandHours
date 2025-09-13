@@ -4,24 +4,26 @@ import SkillContext from "../context/Context";
 function SkillCard() {
   const { skill, setSkill } = useContext(SkillContext);
 
-  const [inputHours, setInputHours] = useState("");
+  const [inputHours, setInputHours] = useState(0);
   const [showInput, setShowInput] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setSkill((prev) => ({
       ...prev,
-      inputHours,
+      inputHours: (prev.inputHours || 0) + inputHours,
     }));
+    setShowInput(false);
+    setInputHours(0);
   };
 
   const title = skill.skillName;
   const hours = skill.hours;
-  const logged_hours = skill.inputHours;
-  const remaining = hours - logged_hours;
+  const logged_hours = skill.inputHours || 0;
+  const remaining = hours - logged_hours || 0;
   const color = skill.color;
-  const percentage = (logged_hours * 100) / hours;
-  const fillWidth = (logged_hours * 315) / hours;
+  const percentage = (logged_hours * 100) / hours || 0;
+  const fillWidth = (logged_hours * 315) / hours || 0;
 
   return (
     <div className="w-100 mt-5 p-6 rounded-lg shadow-md bg-[#1e232d]">
@@ -59,22 +61,20 @@ function SkillCard() {
       </div>
 
       {showInput ? (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="flex gap-2">
           <input
             max={10000}
             value={inputHours}
-            onChange={(e) => setInputHours(e.target.value)}
+            onChange={(e) => setInputHours(Number(e.target.value))}
             type="number"
-            className="w-full p-2 rounded-md bg-[#2b313f] outline-0 border border-gray-600 text-sm mb-4"
+            className="w-full p-2 rounded-md bg-[#2b313f] outline-0 border border-gray-600 text-sm"
           />
           <button
             type="submit"
-            className={
-              "cursor-pointer w-full text-[16px] bg py-2 rounded-md font-semibold"
-            }
+            className={"cursor-pointer px-4 rounded-md font-semibold "}
             style={{ backgroundColor: `#${color}` }}
           >
-            Log Hours
+            ➜
           </button>
         </form>
       ) : null}
