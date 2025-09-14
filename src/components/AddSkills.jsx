@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-import { useState } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,6 +9,7 @@ import {
 import { Calendar } from "./ui/calendar";
 import { ChevronDownIcon } from "lucide-react";
 import SkillContext from "../context/Context.js";
+import { themes } from "../themes/theme.js";
 
 export default function AddSkills() {
   const [open, setOpen] = React.useState(false);
@@ -18,13 +18,13 @@ export default function AddSkills() {
 
   const [skillName, SetSkillName] = useState("");
   const [hours, setHours] = useState(10000);
-  const [color, setColor] = useState("22c55e");
+  const [theme, setTheme] = useState("teal");
 
   const { setSkill } = useContext(SkillContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSkill({ skillName, hours, color, Date: date.toLocaleDateString() });
+    setSkill({ skillName, hours, theme, Date: date.toLocaleDateString() });
     ClosePopup();
   };
 
@@ -58,11 +58,12 @@ export default function AddSkills() {
             <label className="text-sm mb-1 block">Skill Name</label>
             <input
               required
+              maxLength={30}
               value={skillName}
               onChange={(e) => SetSkillName(e.target.value)}
               type="text"
               placeholder="e.g. Programming, Drawing"
-              className="w-full p-2 rounded-md bg-[#2b313f] outline-0 border border-gray-600 text-sm mb-4"
+              className="w-full p-2 rounded-md bg-[#2b313f] outline-0 border border-gray-600 text-sm mb-4 break-words whitespace-pre-wrap"
             />
 
             {/* Goal Hours */}
@@ -105,33 +106,19 @@ export default function AddSkills() {
             {/* Theme Color */}
             <label className="text-sm mb-1 block">Theme Color</label>
             <div
+              onClick={(e) => e.preventDefault()}
               className="flex gap-2 mb-6 [&>*]:rounded [&>*]:cursor-pointer [&>*]:h-8 [&>*]:w-8
         [&>*]:focus:border-gray-300 [&>*]:focus:border-1"
             >
-              <button
-                onClick={() => {
-                  setColor("22c55e");
-                }}
-                className="bg-green-500"
-              ></button>
-              <button
-                onClick={() => {
-                  setColor("3b82f6");
-                }}
-                className="bg-blue-500"
-              ></button>
-              <button
-                onClick={() => {
-                  setColor("a855f7");
-                }}
-                className="bg-purple-500"
-              ></button>
-              <button
-                onClick={() => {
-                  setColor("ec4899");
-                }}
-                className="bg-pink-500"
-              ></button>
+              {Object.keys(themes).map((themeKey) => (
+                <button
+                  key={themeKey}
+                  onClick={() => {
+                    setTheme(themeKey);
+                  }}
+                  style={{ backgroundColor: themes[themeKey].shade2 }}
+                ></button>
+              ))}
             </div>
 
             {/* Submit */}

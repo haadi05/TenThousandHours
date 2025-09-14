@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import SkillContext from "../context/Context";
+import { themes } from "../themes/theme";
 
 function SkillCard() {
   const { skill, setSkill } = useContext(SkillContext);
@@ -21,7 +22,7 @@ function SkillCard() {
   const hours = skill.hours;
   const logged_hours = skill.inputHours || 0;
   const remaining = hours - logged_hours || 0;
-  const color = skill.color;
+  const theme = skill.theme;
   const percentage = (logged_hours * 100) / hours || 0;
   const fillWidth = (logged_hours * 315) / hours || 0;
 
@@ -30,8 +31,8 @@ function SkillCard() {
       <div className="flex justify-between items-center mb-4">
         <h3 className="font-semibold text-lg">{title}</h3>
         <div
-          className={"h-4 w-4 rounded-2xl"}
-          style={{ backgroundColor: `#${color}` }}
+          className={"h-4 w-4 rounded-[4px]"}
+          style={{ backgroundColor: themes[theme]?.shade3 || "transparent" }}
         ></div>
       </div>
       <div className="flex justify-between mb-4">
@@ -45,7 +46,10 @@ function SkillCard() {
         <div className="w-full bg-[#2b313f] rounded-4xl h-3 overflow-hidden ">
           <div
             className={`h-full flex items-center`}
-            style={{ backgroundColor: `#${color}`, width: `${fillWidth}px` }}
+            style={{
+              backgroundColor: themes[theme]?.shade3 || "transparent",
+              width: `${fillWidth}px`,
+            }}
           ></div>
         </div>
 
@@ -53,7 +57,7 @@ function SkillCard() {
       </div>
       <div className="flex justify-between text-sm mb-2">
         <div>
-          <span className="text-gray-400">logged Hours: </span> {logged_hours}h
+          <span className="text-gray-400">Logged Hours: </span> {logged_hours}h
         </div>
         <div>
           <span className="text-gray-400">Remaining:</span> {remaining}h
@@ -72,7 +76,7 @@ function SkillCard() {
           <button
             type="submit"
             className={"cursor-pointer px-4 rounded-md font-semibold "}
-            style={{ backgroundColor: `#${color}` }}
+            style={{ backgroundColor: themes[theme]?.shade3 || "transparent" }}
           >
             ➜
           </button>
@@ -85,7 +89,7 @@ function SkillCard() {
           className={
             "cursor-pointer w-full text-[16px] bg py-2 rounded-md font-semibold"
           }
-          style={{ backgroundColor: `#${color}` }}
+          style={{ backgroundColor: themes[theme]?.shade3 || "transparent" }}
         >
           Log Hours
         </button>
