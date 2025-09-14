@@ -1,4 +1,4 @@
-import { SkillsCard, NewHeatMap } from "../index.js";
+import { SkillsCard, HeatmapGraph } from "../index.js";
 
 function Dashboard() {
   return (
@@ -6,7 +6,7 @@ function Dashboard() {
       <p className="ml-18 mt-4 text-2xl text-gray-400">Your Skills</p>
       <div className="flex mx-18 gap-4">
         <SkillsCard />
-        <NewHeatMap color={"#fff"} />
+        <HeatmapGraph color={"#fff"} />
       </div>
     </>
   );
