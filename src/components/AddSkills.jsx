@@ -15,21 +15,29 @@ export default function AddSkills() {
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = useState(new Date());
   const [dropdown, setDropdown] = useState("dropdown");
-
   const [skillName, SetSkillName] = useState("");
   const [hours, setHours] = useState(10000);
   const [theme, setTheme] = useState("teal");
+
+  const navigate = useNavigate();
+  const ClosePopup = () => navigate("/");
 
   const { setSkill } = useContext(SkillContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSkill({ skillName, hours, theme, Date: date.toLocaleDateString() });
+    const newSkillObj = {
+      id: Date.now(), // Add unique ID
+      skillName,
+      hours,
+      theme,
+      Date: date.toLocaleDateString(),
+    };
+
+    // Add to the new skills array in context
+    setSkill((prev) => [...prev, newSkillObj]);
     ClosePopup();
   };
-
-  const navigate = useNavigate();
-  const ClosePopup = () => navigate("/");
 
   return (
     <>
