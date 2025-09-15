@@ -2,27 +2,39 @@ import { useContext, useState } from "react";
 import SkillContext from "../context/Context";
 import { themes } from "../themes/theme";
 
-function SkillCard() {
-  const { skill, setSkill } = useContext(SkillContext);
+function SkillCard({ skillsList }) {
+  const { setSkill } = useContext(SkillContext);
 
   const [inputHours, setInputHours] = useState(0);
   const [showInput, setShowInput] = useState(false);
 
+  //for updating the logged hours
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSkill((prev) => ({
-      ...prev,
-      inputHours: (prev.inputHours || 0) + inputHours,
-    }));
+
+    setSkill((prev) =>
+      prev.map(
+        (currentSkill) =>
+          // ID MATCHING: Check if current skill matches the target skill ID
+          // This is CRUCIAL - without this check, ALL skillsList would get updated (logged hours)!
+          currentSkill.id === skillsList.id
+            ? {
+                // MATCH FOUND: Update this skill
+                ...currentSkill,
+                inputHours: (currentSkill.inputHours || 0) + inputHours, // Add new hours to existing hours
+              } // (currentSkill.inputHours || 0) handles case where inputHours might not be defined (probably in start)
+            : currentSkill // if not matched: Return skill unchanged
+      )
+    );
     setShowInput(false);
     setInputHours(0);
   };
 
-  const title = skill.skillName;
-  const hours = skill.hours;
-  const logged_hours = skill.inputHours || 0;
+  const title = skillsList.skillName;
+  const hours = skillsList.hours;
+  const logged_hours = skillsList.inputHours || 0;
   const remaining = hours - logged_hours || 0;
-  const theme = skill.theme;
+  const theme = skillsList.theme;
   const percentage = (logged_hours * 100) / hours || 0;
   const fillWidth = (logged_hours * 315) / hours || 0;
 
@@ -38,7 +50,7 @@ function SkillCard() {
       <div className="flex justify-between mb-4">
         <div className="flex justify-center items-center gap-1 text-gray-400 text-sm">
           <img className="w-4 text-gray-400 " src="./src/assets/calender.svg" />
-          {skill.Date}
+          {skillsList.Date}
         </div>
       </div>
 
@@ -68,6 +80,7 @@ function SkillCard() {
         <form onSubmit={handleSubmit} className="flex gap-2">
           <input
             max={10000}
+            min={0}
             value={inputHours}
             onChange={(e) => setInputHours(Number(e.target.value))}
             type="number"
