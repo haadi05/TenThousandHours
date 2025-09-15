@@ -7,7 +7,6 @@ function Navbar() {
         <p className="text-3xl font-bold">Ten Thousand Hours</p>
         <p className="text-[18px] font-normal text-[#a2a2a2]">
           Track. Improve. Master
-          {/* Every master was once a beginner */}
         </p>
       </div>
       <div className="flex items-center gap-3">
