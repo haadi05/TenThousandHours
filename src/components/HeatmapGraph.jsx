@@ -1,26 +1,27 @@
-import { useContext, useState } from "react";
+import { useEffect, useState } from "react";
 import HeatMap from "@uiw/react-heat-map";
-import SkillContext from "../context/Context.js";
 import { themes } from "../themes/theme.js";
 
-const value = [
-  { date: "2025/01/01", count: 1 },
-  { date: "2025/04/01", count: 6 },
-  { date: "2025/05/01", count: 10 },
-  { date: "2025/07/01", count: 15 },
-];
-const HeatmapGraph = () => {
-  const { skill } = useContext(SkillContext);
-  const theme = skill.theme;
+const HeatmapGraph = ({ skillsList }) => {
+  const theme = skillsList.theme;
+  const inputHours = skillsList.inputHours;
 
+  // d is short name for new Date
+  const formatDate = (d) => {
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0"); //+1 cuz js months start(Jan) with 0 like arrays
+    const day = String(d.getDate()).padStart(2, "0"); // 09 cuz js returns only 9
+    return `${year}/${month}/${day}`;
+  };
+
+  const today = formatDate(new Date()); // "2025/09/15"
+
+  const [value, setValue] = useState([]);
   const [hovered, setHovered] = useState(null);
 
-  const shades = {
-    shade1: 600,
-    shade2: 500,
-    shade3: 400,
-    shade4: 300,
-  };
+  useEffect(() => {
+    setValue((prev) => [...prev, { date: today, count: inputHours }]);
+  }, [inputHours]);
 
   return (
     <div className="flex flex-col justify-center items-center w-full mt-5 bg-[#1e232d] rounded-lg p-4">
@@ -39,11 +40,12 @@ const HeatmapGraph = () => {
             "--rhm-rect-active": "blue",
           }}
           panelColors={{
-            0: "#414a5e", //no activity
-            1: themes[theme]?.shade1 || "#414a5e",
-            5: themes[theme]?.shade2 || "#414a5e",
+            0: "#414a5e",
+            1: "#414a5e",
+            4: themes[theme]?.shade1 || "#414a5e",
+            8: themes[theme]?.shade2 || "#414a5e",
             10: themes[theme]?.shade3 || "#414a5e",
-            15: themes[theme]?.shade4 || "#414a5e",
+            12: themes[theme]?.shade4 || "#414a5e",
           }}
           rectRender={(props, data) => (
             <rect
@@ -98,9 +100,6 @@ const HeatmapGraph = () => {
               backgroundColor: themes[theme]?.shade4 || "transparent",
             }}
           ></span>
-          {/* <span
-            style={{ backgroundColor: `rgb(var(--${color}-${shades.shade5}))` }}
-          ></span> */}
         </div>
         <span className="text-xs text-gray-400 ">More</span>
       </div>
