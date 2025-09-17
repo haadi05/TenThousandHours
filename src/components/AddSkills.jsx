@@ -20,7 +20,7 @@ export default function AddSkills() {
   const [theme, setTheme] = useState("teal");
 
   const navigate = useNavigate();
-  const ClosePopup = () => navigate("/");
+  const ClosePopup = () => navigate("/dashboard");
 
   const { setSkill } = useContext(SkillContext);
 
@@ -55,7 +55,7 @@ export default function AddSkills() {
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl  font-semibold">Add New Skill</h2>
               <NavLink
-                to={"/"}
+                to={"/dashboard"}
                 className="cursor-pointer text-gray-400 hover:text-white text-2xl rounded-4xl"
               >
                 ✕
