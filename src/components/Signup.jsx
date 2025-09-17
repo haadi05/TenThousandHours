@@ -11,7 +11,6 @@ import { doCreateUserWithEmailAndPassword } from "../firebase/auth";
 
 function SignupForm({ className, ...props }) {
   const { userLoggedIn } = useAuth();
-  // const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -121,7 +120,6 @@ function SignupForm({ className, ...props }) {
                   Already have an account?{" "}
                   <NavLink
                     to={"/login"}
-                    // This replaces the path with /S
                     replace
                     className="underline  underline-offset-4"
                   >
