@@ -6,3 +6,4 @@ export { default as HeatmapGraph } from "./components/HeatmapGraph";
 export { default as Home } from "./components/Home";
 export { default as LoginForm } from "./components/Login";
 export { default as SignupForm } from "./components/Signup";
+export { default as ProtectedRoutes } from "./components/ProtectedRoutes";

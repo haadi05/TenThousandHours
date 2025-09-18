@@ -1,5 +1,5 @@
 import { Outlet, useLocation } from "react-router-dom";
-import { Navbar } from "./index.js";
+import { Navbar, ProtectedRoutes } from "./index.js";
 import SkillContextProvider from "./context/SkillContextProvider.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 
@@ -10,7 +10,7 @@ function App() {
   return (
     <AuthProvider>
       <SkillContextProvider>
-        {!hideNavbar && <Navbar />}
+        <ProtectedRoutes>{!hideNavbar && <Navbar />}</ProtectedRoutes>
         <Outlet />
       </SkillContextProvider>
     </AuthProvider>

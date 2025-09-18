@@ -3,7 +3,14 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Dashboard, AddSkills, LoginForm, SignupForm, Home } from "./index.js";
+import {
+  Dashboard,
+  AddSkills,
+  LoginForm,
+  SignupForm,
+  Home,
+  ProtectedRoutes,
+} from "./index.js";
 
 const router = createBrowserRouter([
   {
@@ -24,15 +31,21 @@ const router = createBrowserRouter([
       },
       {
         path: "dashboard",
-        element: <Dashboard />,
+        element: (
+          <ProtectedRoutes>
+            <Dashboard />
+          </ProtectedRoutes>
+        ),
       },
       {
         path: "dashboard/addskills",
         element: (
-          <>
-            <Dashboard />
-            <AddSkills />
-          </>
+          <ProtectedRoutes>
+            <>
+              <Dashboard />
+              <AddSkills />
+            </>
+          </ProtectedRoutes>
         ),
       },
     ],
