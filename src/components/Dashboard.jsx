@@ -12,7 +12,7 @@ function Dashboard() {
         <p className="text-2xl text-gray-400">Your Skills</p>
         <NavLink
           to={"addskills"}
-          className="cursor-pointer text-black bg-gray-100 px-3 py-1 text-[16px] rounded-md"
+          className="cursor-pointer  text-black bg-gray-100 px-3 py-1 text-[16px] rounded-md"
         >
           + Add Skill
         </NavLink>

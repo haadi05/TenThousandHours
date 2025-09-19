@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Popover,
   PopoverContent,
@@ -37,7 +37,7 @@ function Navbar() {
               }}
               className="outline-none cursor-pointer hover:bg-accent rounded-sm px-2 py-1"
             >
-              Signout
+              Logout
             </button>
           </PopoverContent>
         </Popover>

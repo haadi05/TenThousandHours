@@ -1,6 +1,6 @@
+import { themes } from "../themes/theme.js";
 import { useEffect, useState } from "react";
 import HeatMap from "@uiw/react-heat-map";
-import { themes } from "../themes/theme.js";
 
 const HeatmapGraph = ({ skillsList }) => {
   const theme = skillsList.theme;
