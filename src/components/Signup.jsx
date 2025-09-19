@@ -7,10 +7,14 @@ import { NavLink, Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
 //Firebase import
 import { useAuth } from "../context/AuthContext";
-import { doCreateUserWithEmailAndPassword } from "../firebase/auth";
+import {
+  doCreateUserWithEmailAndPassword,
+  doSignInWithGoogle,
+} from "../firebase/auth";
 
 function SignupForm({ className, ...props }) {
   const { userLoggedIn } = useAuth();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,8 +33,25 @@ function SignupForm({ className, ...props }) {
       try {
         setIsRegistering(true);
         await doCreateUserWithEmailAndPassword(email, password);
+        navigate("/dashboard");
       } catch (error) {
-        setErrorMessage(error.Message);
+        switch (error.code) {
+          case "auth/invalid-email":
+            setErrorMessage("Email format is invalid");
+            break;
+          case "auth/too-many-requests":
+            setErrorMessage("Too many failed attempts. Try again later");
+            break;
+          case "auth/network-request-failed":
+            setErrorMessage("Network error. Check your connection");
+            break;
+          case "auth/weak-password":
+            setErrorMessage("Password should be at least 6 characters");
+            break;
+          default:
+            setErrorMessage(error.message);
+        }
+      } finally {
         setIsRegistering(false);
       }
     }
@@ -40,11 +61,32 @@ function SignupForm({ className, ...props }) {
     e.preventDefault();
     if (!isRegistering) {
       try {
-        isRegistering(true);
-        doSignInWithGoogle();
+        setIsRegistering(true);
+        await doSignInWithGoogle();
       } catch (error) {
-        setErrorMessage(error.Message);
-        isRegistering(false);
+        switch (error.code) {
+          case "auth/popup-closed-by-user":
+            setErrorMessage("Sign-in was canceled");
+            break;
+          case "auth/cancelled-popup-request":
+            setErrorMessage("Another sign-in attempt is in progress");
+            break;
+          case "auth/popup-blocked":
+            setErrorMessage(
+              "Popup blocked by the browser. Please allow popups and try again"
+            );
+            break;
+          case "auth/account-exists-with-different-credential":
+            setErrorMessage("This email is already in use");
+            break;
+          case "auth/network-request-failed":
+            setErrorMessage("Network error. Please check your connection");
+            break;
+          default:
+            setErrorMessage(error.message);
+        }
+      } finally {
+        setIsRegistering(false);
       }
     }
   };
@@ -94,9 +136,6 @@ function SignupForm({ className, ...props }) {
                   <div className="flex flex-col gap-3">
                     <Button
                       disabled={isRegistering}
-                      onClick={(e) => {
-                        handleSubmit(e);
-                      }}
                       type="submit"
                       className="w-full cursor-pointer"
                     >
@@ -110,14 +149,14 @@ function SignupForm({ className, ...props }) {
                     >
                       <img
                         src="./src/assets/googleLogo.svg"
-                        className="size-5 "
+                        className="size-5"
                       />
                       Signup with Google
                     </Button>
                   </div>
                 </div>
                 <div className="mt-4 text-center text-sm">
-                  Already have an account?{" "}
+                  Already have an account?
                   <NavLink
                     to={"/login"}
                     replace

@@ -32,7 +32,23 @@ function LoginForm({ className, ...props }) {
         setIsSigningIn(true);
         await doSignInWithEmailAndPassword(email, password);
       } catch (error) {
-        setErrorMessage(error.Message);
+        switch (error.code) {
+          case "auth/invalid-email":
+            setErrorMessage("Email format is invalid");
+            break;
+          case "auth/invalid-credential":
+            setErrorMessage("Invalid credentials");
+            break;
+          case "auth/user-not-found":
+            setErrorMessage("No account with that email found");
+            break;
+          case "auth/wrong-password":
+            setErrorMessage("Incorrect password");
+            break;
+          default:
+            setErrorMessage(error.message);
+        }
+      } finally {
         setIsSigningIn(false);
       }
     }
@@ -42,9 +58,30 @@ function LoginForm({ className, ...props }) {
     if (!isSigningIn) {
       try {
         setIsSigningIn(true);
-        doSignInWithGoogle();
+        await doSignInWithGoogle();
       } catch (error) {
-        setErrorMessage(error.Message);
+        switch (error.code) {
+          case "auth/popup-closed-by-user":
+            setErrorMessage("Sign-in was canceled");
+            break;
+          case "auth/cancelled-popup-request":
+            setErrorMessage("Another sign-in attempt is in progress");
+            break;
+          case "auth/popup-blocked":
+            setErrorMessage(
+              "Popup blocked by the browser. Please allow popups and try again"
+            );
+            break;
+          case "auth/account-exists-with-different-credential":
+            setErrorMessage("This email is already in use");
+            break;
+          case "auth/network-request-failed":
+            setErrorMessage("Network error. Please check your connection");
+            break;
+          default:
+            setErrorMessage(error.message);
+        }
+      } finally {
         setIsSigningIn(false);
       }
     }
@@ -103,7 +140,6 @@ function LoginForm({ className, ...props }) {
                   <div className="flex flex-col gap-3">
                     <Button
                       disabled={isSigningIn}
-                      onClick={(e) => handleSubmit(e)}
                       type="submit"
                       className="w-full cursor-pointer"
                     >
