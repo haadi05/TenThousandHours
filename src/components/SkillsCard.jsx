@@ -1,22 +1,28 @@
+import { themes } from "../themes/theme";
 import { useContext, useState } from "react";
 import SkillContext from "../context/Context";
-import { themes } from "../themes/theme";
+import { useAuth } from "../context/AuthContext";
+import { updateData } from "../firebase/db";
 
 function SkillCard({ skillsList }) {
   const { setSkill } = useContext(SkillContext);
+  const skillId = skillsList.id;
+
+  const { currentUser } = useAuth();
+  const userId = currentUser.uid;
 
   const [inputHours, setInputHours] = useState(0);
   const [showInput, setShowInput] = useState(false);
 
   //for updating the logged hours
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     setSkill((prev) =>
       prev.map(
         (currentSkill) =>
-          // ID MATCHING: Check if current skill matches the target skill ID
-          // This is CRUCIAL - without this check, ALL skillsList would get updated (logged hours)!
+          // ID MATCHING: check if current skill matches the target skill ID
+          // Without this check, All skillsList would get updated (logged hours)
           currentSkill.id === skillsList.id
             ? {
                 // MATCH FOUND: Update this skill
@@ -27,6 +33,11 @@ function SkillCard({ skillsList }) {
       )
     );
     setShowInput(false);
+    try {
+      await updateData(String(userId), String(skillId), inputHours);
+    } catch (error) {
+      console.error("Failed to update Firestore:", error);
+    }
     setInputHours(0);
   };
 
