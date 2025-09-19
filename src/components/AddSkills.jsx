@@ -1,3 +1,4 @@
+import { themes } from "../themes/theme.js";
 import React, { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -9,9 +10,14 @@ import {
 import { Calendar } from "./ui/calendar";
 import { ChevronDownIcon } from "lucide-react";
 import SkillContext from "../context/Context.js";
-import { themes } from "../themes/theme.js";
+//Firebase imports
+import { setData } from "../firebase/db.js";
+import { useAuth } from "../context/AuthContext.jsx";
 
 export default function AddSkills() {
+  const { currentUser } = useAuth();
+  const userId = currentUser.uid;
+  //---
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = useState(new Date());
   const [dropdown, setDropdown] = useState("dropdown");
@@ -24,7 +30,7 @@ export default function AddSkills() {
 
   const { setSkill } = useContext(SkillContext);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newSkillObj = {
       id: Date.now(), // Add unique ID
@@ -37,6 +43,15 @@ export default function AddSkills() {
     // Add to the new skills array in context
     setSkill((prev) => [...prev, newSkillObj]);
     ClosePopup();
+
+    try {
+      await setData(userId, newSkillObj, String(newSkillObj.id));
+      console.log("Success");
+    } catch (error) {
+      console.error("Failed: ", error);
+      //Roll back if it fails to send obj to FireStore
+      setSkill((prev) => prev.filter((skill) => skill.id !== newSkillObj.id));
+    }
   };
 
   return (
