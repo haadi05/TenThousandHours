@@ -38,7 +38,14 @@ export function AuthProvider({ children }) {
   return (
     <AuthContext.Provider value={value}>
       {/* if hook is not loading user  */}
-      {!loading && children}
+      {loading ? (
+        <div className="flex justify-center items-center h-screen">
+          {" "}
+          <div className="loader"></div>
+        </div>
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   );
 }
