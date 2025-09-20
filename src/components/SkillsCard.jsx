@@ -1,8 +1,14 @@
 import { themes } from "../themes/theme";
 import { useContext, useState } from "react";
 import SkillContext from "../context/Context";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+//Firebase imports
 import { useAuth } from "../context/AuthContext";
-import { updateData } from "../firebase/db";
+import { updateData, delData } from "../firebase/db";
 
 function SkillCard({ skillsList }) {
   const { setSkill } = useContext(SkillContext);
@@ -13,6 +19,7 @@ function SkillCard({ skillsList }) {
 
   const [inputHours, setInputHours] = useState(0);
   const [showInput, setShowInput] = useState(false);
+  const [open, setOpen] = useState(false);
 
   //for updating the logged hours
   const handleSubmit = async (e) => {
@@ -41,6 +48,15 @@ function SkillCard({ skillsList }) {
     setInputHours(0);
   };
 
+  const handleDeleteSkill = async () => {
+    setSkill((prev) => prev.filter((s) => s.id !== skillsList.id));
+    try {
+      await delData(String(userId), String(skillId));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const title = skillsList.skillName;
   const hours = skillsList.hours;
   const logged_hours = skillsList.inputHours || 0;
@@ -50,13 +66,24 @@ function SkillCard({ skillsList }) {
   const fillWidth = (logged_hours * 315) / hours || 0;
 
   return (
-    <div className="w-100 mt-5 p-6 rounded-lg shadow-md bg-[#1e232d]">
+    <div className="w-100 max-[1676px]:w-full mt-5 p-6 rounded-lg shadow-md bg-[#1e232d]">
       <div className="flex justify-between items-center mb-4">
         <h3 className="font-semibold text-lg">{title}</h3>
-        <div
-          className={"h-4 w-4 rounded-[4px]"}
-          style={{ backgroundColor: themes[theme]?.shade3 || "transparent" }}
-        ></div>
+        <div>
+          <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild className="cursor-pointer">
+              <img className="size-[20px]" src="./src/assets/moreBtn.svg" />
+            </PopoverTrigger>
+            <PopoverContent className="w-fit p-1 m-0">
+              <button
+                onClick={handleDeleteSkill}
+                className=" outline-none cursor-pointer hover:bg-red-500 rounded-sm px-2 py-1"
+              >
+                Delete
+              </button>
+            </PopoverContent>
+          </Popover>
+        </div>
       </div>
       <div className="flex justify-between mb-4">
         <div className="flex justify-center items-center gap-1 text-gray-400 text-sm">

@@ -5,6 +5,7 @@ import {
   setDoc,
   doc,
   updateDoc,
+  deleteDoc,
 } from "firebase/firestore";
 
 export const setData = async (userId, skillData, skillId) => {
@@ -12,7 +13,6 @@ export const setData = async (userId, skillData, skillId) => {
     //using firebase user id as document
     const skillRef = doc(db, "users", userId, "skills", skillId);
     await setDoc(skillRef, skillData);
-    console.log("Document written with ID: ", skillRef.id);
   } catch (error) {
     console.error("Error adding document: ", error);
     throw error;
@@ -29,9 +29,19 @@ export const updateData = async (userId, skillId, newHours) => {
   try {
     const skillRef = doc(db, "users", userId, "skills", skillId);
     await updateDoc(skillRef, { inputHours: newHours });
-    console.log("sucessfully updated");
   } catch (error) {
     console.error("Error updating document: ", error);
+    throw error;
+  }
+};
+
+export const delData = async (userId, skillId) => {
+  if (!skillId) throw new Error("Cannot delete skill: skillId is undefined");
+  try {
+    const skillRef = doc(db, "users", userId, "skills", skillId);
+    await deleteDoc(skillRef);
+  } catch (error) {
+    console.error("Error deleting skill:", error);
     throw error;
   }
 };
