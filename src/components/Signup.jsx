@@ -96,7 +96,7 @@ function SignupForm({ className, ...props }) {
       {userLoggedIn && <Navigate to={"/dashboard"} replace />}
       <div className="flex flex-col justify-center items-center h-screen">
         <div className={cn("flex flex-col gap-6", className)} {...props}>
-          <Card className="w-sm">
+          <Card className="w-sm max-[416px]:w-xs">
             <p className="flex justify-center font-semibold text-2xl ">
               Signup for your account
             </p>

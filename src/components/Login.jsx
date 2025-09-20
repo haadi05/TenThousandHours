@@ -92,7 +92,7 @@ function LoginForm({ className, ...props }) {
       <div className="flex justify-center items-center h-screen">
         {userLoggedIn && <Navigate to={"/dashboard"} replace />}
         <div className={cn("flex flex-col gap-6", className)} {...props}>
-          <Card className="w-sm">
+          <Card className="w-sm max-[416px]:w-xs">
             <p className="flex justify-center font-semibold text-2xl ">
               Login to your account
             </p>
