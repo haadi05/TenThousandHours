@@ -147,7 +147,7 @@ function SignupForm({ className, ...props }) {
                       variant="outline"
                       className="w-full cursor-pointer"
                     >
-                      <img src="./public/googleLogo.svg" className="size-5" />
+                      <img src="/googleLogo.svg" className="size-5" />
                       Signup with Google
                     </Button>
                   </div>
