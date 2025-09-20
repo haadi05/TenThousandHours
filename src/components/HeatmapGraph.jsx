@@ -24,7 +24,7 @@ const HeatmapGraph = ({ skillsList }) => {
   }, [inputHours]);
 
   return (
-    <div className="flex flex-col justify-center items-center w-full mt-5 bg-[#1e232d] rounded-lg p-4">
+    <div className="flex flex-col overflow-x-auto justify-center items-center w-full mt-5 bg-[#1e232d] rounded-lg p-4">
       <div>
         <HeatMap
           value={value}
@@ -37,7 +37,7 @@ const HeatmapGraph = ({ skillsList }) => {
           startDate={new Date("2025/01/01")}
           style={{
             color: "#ffffff",
-            "--rhm-rect-active": "blue",
+            "--rhm-rect-active": "#ffffff",
           }}
           panelColors={{
             0: "#414a5e",

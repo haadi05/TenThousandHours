@@ -46,9 +46,8 @@ export default function AddSkills() {
 
     try {
       await setData(userId, newSkillObj, String(newSkillObj.id));
-      console.log("Success");
     } catch (error) {
-      console.error("Failed: ", error);
+      console.error(error);
       //Roll back if it fails to send obj to FireStore
       setSkill((prev) => prev.filter((skill) => skill.id !== newSkillObj.id));
     }
@@ -65,7 +64,7 @@ export default function AddSkills() {
             onClick={(e) => {
               e.stopPropagation();
             }}
-            className="bg-[#1e232d] text-white p-6 rounded-xl w-[400px]"
+            className="bg-[#1e232d] text-white p-6 rounded-xl w-[400px] max-[1320px]:w-[360px] max-[860px]:w-[326px] "
           >
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl  font-semibold">Add New Skill</h2>
