@@ -6,6 +6,7 @@ import { getData } from "../firebase/db";
 
 function SkillContextProvider({ children }) {
   const [skill, setSkill] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const { currentUser } = useAuth();
 
@@ -13,16 +14,18 @@ function SkillContextProvider({ children }) {
   const userId = currentUser?.uid;
 
   useEffect(() => {
+    setLoading(true);
     if (!userId) {
       setSkill([]);
       return;
     }
 
     getData(userId).then(setSkill);
+    setLoading(false);
   }, [userId]);
 
   return (
-    <SkillContext.Provider value={{ skill, setSkill }}>
+    <SkillContext.Provider value={{ skill, setSkill, loading }}>
       {children}
     </SkillContext.Provider>
   );
