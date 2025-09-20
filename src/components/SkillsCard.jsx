@@ -72,7 +72,7 @@ function SkillCard({ skillsList }) {
         <div>
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild className="cursor-pointer">
-              <img className="size-[20px]" src="./src/assets/moreBtn.svg" />
+              <img className="size-[20px]" src="./public/moreBtn.svg" />
             </PopoverTrigger>
             <PopoverContent className="w-fit p-1 m-0">
               <button
@@ -87,7 +87,7 @@ function SkillCard({ skillsList }) {
       </div>
       <div className="flex justify-between mb-4">
         <div className="flex justify-center items-center gap-1 text-gray-400 text-sm">
-          <img className="w-4 text-gray-400 " src="./src/assets/calender.svg" />
+          <img className="w-4 text-gray-400 " src="./public/calender.svg" />
           {skillsList.Date}
         </div>
       </div>

@@ -7,7 +7,7 @@ function Home() {
     <>
       <Navbar></Navbar>
       <div className="flex flex-col justify-center items-center mt-30">
-        <img src="./src/assets/target.svg" className="size-16" />
+        <img src="./public/target.svg" className="size-16" />
         <p className="text-2xl mt-1">Start your Journey to Mastery</p>
         <NavLink
           to={"/dashboard/addskills"}
