@@ -13,10 +13,12 @@ function Navbar() {
   const navigate = useNavigate();
   const { userLoggedIn } = useAuth();
   return (
-    <nav className="bg-[#161b22] text-white px-18 py-4 flex justify-between items-center">
+    <nav className="bg-[#161b22] text-white px-18 max-[1320px]:px-12 max-[860px]:px-8 max-[630px]:px-4 py-4 flex justify-between items-center">
       <div>
-        <p className="text-3xl font-bold">Ten Thousand Hours</p>
-        <p className="text-[18px] font-normal text-[#a2a2a2]">
+        <p className="text-3xl max-[630px]:text-2xl font-bold">
+          Ten Thousand Hours
+        </p>
+        <p className="text-[18px] max-[400px]:text-[14px] font-normal text-[#a2a2a2]">
           Track. Improve. Master
         </p>
       </div>
@@ -24,7 +26,7 @@ function Navbar() {
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild className="rounded-full">
             <img
-              src="https://api.dicebear.com/9.x/glass/svg?seed=Felix"
+              src="https://api.dicebear.com/9.x/glass/svg?seed=Aneka"
               className="cursor-pointer size-10"
             />
           </PopoverTrigger>
