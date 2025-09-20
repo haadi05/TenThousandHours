@@ -1,4 +1,5 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Navbar } from "./index.js";
 import SkillContextProvider from "./context/SkillContextProvider.jsx";
 //Firebase imports
@@ -12,6 +13,13 @@ function AppContent() {
   const hideNavbar = ["/login", "/signup", "/"].includes(location.pathname);
 
   const shouldShowNavbar = !loading && !hideNavbar && userLoggedIn;
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!loading && userLoggedIn && location.pathname === "/") {
+      navigate("/dashboard");
+    }
+  }, [loading, userLoggedIn, location.pathname]);
 
   return (
     <SkillContextProvider>
