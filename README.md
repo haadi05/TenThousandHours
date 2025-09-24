@@ -2,17 +2,17 @@
 
 A React web app inspired by the 10,000-Hour Rule that helps users track their journey toward skill mastery. Log daily practice hours, visualize progress with a GitHub-style heatmap, and manage multiple skills with customizable themes.
 
----
+## Preview
+
+<img src="./src/assets/preview.png">
 
 ## Features
 
-- User Authentication
-- Skill Management
-- Daily Logging & Heatmap
-- Optimistic & Minimal UI
-- Clickable home button to return to the search page.
-
----
+- Authentication — Sign up and log in with Email/Password or Google.
+- Skill Cards — Add skills and track total hours.
+- Heatmap View — Visualize your consistency across all skills.
+- FireStore Integration — User-specific skill storage.
+- Basic State Management — Context API for auth and skills.
 
 ## 🛠 Tech Stack
 
@@ -21,8 +21,6 @@ A React web app inspired by the 10,000-Hour Rule that helps users track their jo
 ![TailwindCSS](https://img.shields.io/badge/Tailwind-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
 ![shadcn/ui](https://img.shields.io/badge/shadcn%2Fui-000000?style=for-the-badge&logo=radix-ui&logoColor=white)
-
----
 
 ## Getting Started
 
